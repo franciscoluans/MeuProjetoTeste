@@ -38,22 +38,32 @@ public class EightPuzzleDemo2 {
 //			new EightPuzzleBoard(new int[] { 0, 8, 7, 6, 5, 4, 3, 2, 1 });
 	private static final  boolean  t = true;
 	public static void main(String[] args) {
+		long tempoInicial = System.currentTimeMillis();
 		//eightPuzzleDemoRecursiveBestFirstSearch();
+		//eightPuzzleDemoRecursiveBestFirstSearch2();
 		//eightPuzzleDemoUniformCostSearch();
 	//	eightPuzzleDemoDepthFirstSearch();
 		//eightPuzzleDemoBreadthFirstSearch();
-		eightPuzzleDemoBestFirstSearch();
-		eightPuzzleDemoBestFirstSearch2();
-		eightPuzzleDemoBestFirstSearch3();
+	//	eightPuzzleDemoBestFirstSearch();
+		//eightPuzzleDemoBestFirstSearch2();
+		//eightPuzzleDemoBestFirstSearch3();
 		//eightPuzzleDemoBestFirstSearch4();//erro de memoria
+		//eightPuzzleGreedyBestFirstDemo();
+		//eightPuzzleGreedyBestFirstManhattanDemo();
+		//eightPuzzleGreedyBestFirstDemo1();
+		//eightPuzzleGreedyBestFirstManhattanDemo1();
 		//eightPuzzleDLSDemo();
 		/*eightPuzzleDLSDemo();
 		eightPuzzleIDLSDemo();
 		eightPuzzleGreedyBestFirstDemo();
 		eightPuzzleGreedyBestFirstManhattanDemo();
-		eightPuzzleAStarDemo();
-		eightPuzzleAStarManhattanDemo();
+		
 		eightPuzzleSimulatedAnnealingDemo();*/
+		eightPuzzleAStarDemo();
+		//eightPuzzleAStarManhattanDemo();
+		long tempoFinal = System.currentTimeMillis();
+		 System.out.printf("Tempo: " + "%.3f ms%n", (tempoFinal - tempoInicial) / 1000d);
+		
 	}
 
 	private static void eightPuzzleDLSDemo() {
@@ -98,6 +108,21 @@ public class EightPuzzleDemo2 {
 		}
 
 	}
+	//usando peças fora do lugar
+		private static void eightPuzzleGreedyBestFirstDemo1() {
+			System.out.println("\nEightPuzzleDemo Greedy Best First Search (MisplacedTileHeursitic)-->");
+			try {
+				Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(boardWithThreeMoveSolution);
+				SearchForActions<EightPuzzleBoard, Action> search = new GreedyBestFirstSearch<>
+						(new TreeSearch<>(), EightPuzzleFunctions.createMisplacedTileHeuristicFunction());
+				SearchAgent<Object, EightPuzzleBoard, Action> agent = new SearchAgent<>(problem, search);
+				printActions(agent.getActions());
+				printInstrumentation(agent.getInstrumentation());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
 //usando distancia de manhattan
 	private static void eightPuzzleGreedyBestFirstManhattanDemo() {
 		System.out.println("\nEightPuzzleDemo Greedy Best First Search (ManhattanHeursitic)-->");
@@ -113,6 +138,21 @@ public class EightPuzzleDemo2 {
 		}
 
 	}
+	//usando distancia de manhattan
+		private static void eightPuzzleGreedyBestFirstManhattanDemo1() {
+			System.out.println("\nEightPuzzleDemo Greedy Best First Search (ManhattanHeursitic)-->");
+			try {
+				Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(boardWithThreeMoveSolution);
+				SearchForActions<EightPuzzleBoard, Action> search = new GreedyBestFirstSearch<>
+						(new TreeSearch<>(), EightPuzzleFunctions.createManhattanHeuristicFunction());
+				SearchAgent<Object, EightPuzzleBoard, Action> agent = new SearchAgent<>(problem, search);
+				printActions(agent.getActions());
+				printInstrumentation(agent.getInstrumentation());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
 	// distancia de manhattan
 		private static void eightPuzzleAStarManhattanDemo() {
 			System.out.println("\nEightPuzzleDemo AStar Search (ManhattanHeursitic)-->");
@@ -297,7 +337,7 @@ public class EightPuzzleDemo2 {
 			System.out.println("\n eightPuzzleDemo recursive Best First Search -->");
 			try {
 				Problem<EightPuzzleBoard, Action> problem = new BidirectionalEightPuzzleProblem(random1);
-				SearchForActions<EightPuzzleBoard, Action> search = new RecursiveBestFirstSearch<>( EightPuzzleFunctions.createMisplacedTileHeuristicFunction(),t );
+				SearchForActions<EightPuzzleBoard, Action> search = new RecursiveBestFirstSearch<>( EightPuzzleFunctions.createMisplacedTileHeuristicFunction(), t);
 				SearchAgent<Object, EightPuzzleBoard, Action> agent = new SearchAgent<>(problem, search);
 				printActions(agent.getActions());
 				printInstrumentation(agent.getInstrumentation());
